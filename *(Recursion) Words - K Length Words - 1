@@ -1,0 +1,52 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+  public static void permutation(String ustr, int ssf, int i, Character[] slots) {
+        if(i == ustr.length()) {
+            // print
+            if(ssf == slots.length) {
+                for(char c : slots) {
+                    System.out.print(c);
+                }
+                System.out.println();
+            }
+            return;
+        }
+        
+        char ch = ustr.charAt(i);
+
+        // yes call
+        for(int s = 0; s < slots.length; s++) {
+            if(slots[s] == null) {
+                // place
+                slots[s] = ch;
+                permutation(ustr, ssf + 1, i + 1, slots);
+                // unplace
+                slots[s] = null;
+            }
+        }
+        // no call
+        permutation(ustr, ssf, i + 1, slots);
+    }
+
+  public static void main(String[] args) throws Exception {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    String str = br.readLine();
+    int k = Integer.parseInt(br.readLine());
+
+    HashSet<Character> unique = new HashSet<>();
+    String ustr = "";
+    for (char ch : str.toCharArray()) {
+      if (unique.contains(ch) == false) {
+        unique.add(ch);
+        ustr += ch;
+      }
+    }
+    permutation(ustr,0,0,new Character[k]);
+
+    
+  }
+
+}
