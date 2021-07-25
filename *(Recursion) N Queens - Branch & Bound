@@ -1,0 +1,59 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static boolean[] cols;
+    static boolean[] nd; // normal diagonals
+    static boolean[] rd; // reverse diagonals
+
+    public static boolean isSafeToPlace(int r, int c) {
+        // for saftey across column
+        if(cols[c] == true) {
+            return false;
+        }
+        // for safety across normal diagonal
+        if(nd[r + c] == true) {
+            return false;
+        }
+        // for saftey across reverse diagonal
+        if(rd[r - c + cols.length - 1] == true) {
+            return false;
+        }
+        return true;
+    }
+
+    public static void nQueens(int row, int n, String asf) {
+        if(row == n) {
+            System.out.println(asf + ".");
+            return;
+        }
+
+        for(int col = 0; col < n; col++) {
+            if(isSafeToPlace(row, col)) {
+                // mark
+                cols[col] = true;
+                nd[row + col] = true;
+                rd[row - col + n - 1] = true;
+                nQueens(row + 1, n, asf + row + "-" + col + ", ");
+                // unmark
+                cols[col] = false;
+                nd[row + col] = false;
+                rd[row - col + n - 1] = false;
+            }
+        }
+    }
+
+
+  public static void main(String[] args) throws Exception {
+    Scanner scn = new Scanner(System.in);
+    int n = scn.nextInt();
+    boolean[][] board = new boolean[n][n];
+    //write your code here
+    cols = new boolean[n];
+    nd = new boolean[2*n-1];
+    rd = new boolean[2*n-1];
+    nQueens(0,n,"");
+    
+  }
+
+}
