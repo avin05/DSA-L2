@@ -1,0 +1,27 @@
+public static void swap(ListNode l1,ListNode l2){
+        int temp = l1.val;
+        l1.val = l2.val;
+        l2.val = temp;
+    }
+    public static ListNode segregate012(ListNode head) {
+        ListNode i = head,j = head,k = head;
+        
+        while(i!=null){
+            if(i.val == 2){
+                i=i.next;
+            }else if(i.val ==1){
+                swap(i,j);
+                i=i.next;
+                j=j.next;
+                
+            }else{
+                swap(i,j);
+                swap(j,k);
+                i=i.next;
+                j=j.next;
+                k=k.next;
+                
+            }
+        }
+        return head;
+    }
