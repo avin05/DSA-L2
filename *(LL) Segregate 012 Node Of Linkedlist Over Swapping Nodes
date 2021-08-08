@@ -1,4 +1,4 @@
-   public static ListNode segregate012(ListNode head) {
+ public static ListNode segregate012(ListNode head) {
         if(head == null || head.next == null){
             return head;
         }
@@ -11,25 +11,25 @@
         ListNode temp = head;
         
         while(temp!=null){
-            ListNode nn = new ListNode(temp.val);
-            temp = temp.next;
-            if(nn.val == 0){
-                temp0.next = nn;
-                temp0 = nn;
+            //ListNode nn = new ListNode(temp.val);
+            
+            if(temp.val == 0){
+                temp0.next = temp;
+                temp0 = temp;
                 
-            }else if(nn.val == 1){
-                temp1.next = nn;
-                temp1 = nn;
+            }else if(temp.val == 1){
+                temp1.next = temp;
+                temp1 = temp;
                 
             }else{
-                temp2.next = nn;
-                temp2 =nn;
+                temp2.next = temp;
+                temp2 = temp;
                 
             }
+            temp = temp.next;
         }
         
-        //temp0.next = null;
-        //temp1.next = null;
+        
         temp2.next = null;
         temp1.next = two.next;
         temp0.next = one.next;
