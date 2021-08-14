@@ -1,0 +1,94 @@
+import java.util.*;
+
+public class Main {
+  public static Scanner scn = new Scanner(System.in);
+
+  static class TreeNode {
+    int val;
+    TreeNode left = null, right = null;
+
+    TreeNode(int val) {
+      this.val = val;
+    }
+  }
+  
+  public static TreeNode construct(int[] in,ArrayList<Integer> level,int inSt,int inEnd){
+      if(level.size() == 0){
+          return null;
+      }
+      
+      TreeNode root = new TreeNode(level.get(0));
+      int indx = inSt;
+      HashSet<Integer> set = new HashSet<>();
+      while(in[indx]!=level.get(0)){
+          set.add(in[indx]);
+          indx++;
+      }
+      
+      ArrayList<Integer> llvl = new ArrayList<>();
+      ArrayList<Integer> rlvl = new ArrayList<>();
+      
+      for(int i=1;i<level.size();i++){
+          int val = level.get(i);
+          
+          if(set.contains(val)){
+              llvl.add(val);
+          }else{
+              rlvl.add(val);
+          }
+      }
+      
+      root.left = construct(in,llvl,inSt,indx-1);
+      root.right = construct(in,rlvl,indx+1,inEnd);
+      
+      return root;
+  }
+
+  public static TreeNode buildTree(int[] inorder, int[] levelOrder){
+      ArrayList<Integer> level = new ArrayList<>();
+      for(int val: levelOrder){
+          level.add(val);
+      }
+      
+      return construct(inorder,level,0,levelOrder.length-1);
+  }
+
+
+// input_section=================================================
+
+public static void display(TreeNode node) {
+  if (node == null)
+    return;
+
+  StringBuilder sb = new StringBuilder();
+  sb.append((node.left != null ? node.left.val : "."));
+  sb.append(" -> " + node.val + " <- ");
+  sb.append((node.right != null ? node.right.val : "."));
+
+  System.out.println(sb.toString());
+
+  display(node.left);
+  display(node.right);
+
+}
+
+public static void solve() {
+  int n = scn.nextInt();
+
+  int[] InOrder = new int[n];
+  for (int i = 0; i < n; i++)
+    InOrder[i] = scn.nextInt();
+
+  int[] LevelOrder = new int[n];
+  for (int i = 0; i < n; i++)
+    LevelOrder[i] = scn.nextInt();
+
+  TreeNode root = buildTree(InOrder, LevelOrder);
+  display(root);
+}
+
+public static void main(String[] args) {
+  solve();
+}
+
+}
